@@ -9,4 +9,5 @@ setup(
     author='Omar Sandoval',
     author_email='osandov@osandov.com',
     url='https://github.com/osandov/python-atomic',
-    ext_modules=[base_module])
+    ext_modules=[base_module],
+    test_suite='tests')
