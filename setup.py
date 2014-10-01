@@ -1,6 +1,9 @@
 from distutils.core import setup, Extension
+import sys
 
-base_module = Extension('atomic', ['atomic_module.c', 'atomic_integer.c'])
+base_module = Extension(
+    'atomic', ['atomic_module.c', 'atomic_integer.c'],
+    extra_compile_args=['-fno-strict-aliasing'])
 
 setup(
     name='atomic',
