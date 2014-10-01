@@ -9,6 +9,12 @@ static int Integer_init(Integer *self, PyObject *args, PyObject *kwds)
 {
 	static char *kwlist[] = {"x", NULL};
 
+	if (!__atomic_is_lock_free(sizeof(self->value), &self->value)) {
+		if (PyErr_WarnEx(PyExc_RuntimeWarning,
+				 "atomic.Integer is not lock free", 1) < 0)
+			return -1;
+	}
+
 	self->value = 0;
 
 	if (!PyArg_ParseTupleAndKeywords(args, kwds, "|l", kwlist,
