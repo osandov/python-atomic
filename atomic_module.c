@@ -4,7 +4,7 @@
 #define ATOMIC_MODULE_DOCSTRING \
 	"Module providing types supporting atomic operations."
 
-extern PyTypeObject Integer_type;
+extern PyTypeObject Integer_type, Reference_type;
 
 #if PY_MAJOR_VERSION >= 3
 static struct PyModuleDef atomicmodule = {
@@ -29,6 +29,10 @@ void initatomic(void)
 	if (PyType_Ready(&Integer_type) < 0)
 		INITERROR;
 
+	Reference_type.tp_new = PyType_GenericNew;
+	if (PyType_Ready(&Reference_type) < 0)
+		INITERROR;
+
 #if PY_MAJOR_VERSION >= 3
 	m = PyModule_Create(&atomicmodule);
 #else
@@ -39,6 +43,9 @@ void initatomic(void)
 
 	Py_INCREF(&Integer_type);
 	PyModule_AddObject(m, "Integer", (PyObject *)&Integer_type);
+
+	Py_INCREF(&Reference_type);
+	PyModule_AddObject(m, "Reference", (PyObject *)&Reference_type);
 
 #if PY_MAJOR_VERSION >= 3
 	return m;
